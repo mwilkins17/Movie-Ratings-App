@@ -15,6 +15,12 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     
+    
+    # movie = db.relationship("Movie", back_populates="ratings")
+    # ratings = db.relationship("Rating", back_populates="ratings")
+    
+   
+    
     def __repr__(self):
         """Show info about user class"""
         
@@ -34,6 +40,9 @@ class Movie(db.Model):
     release_date = db.Column(db.DateTime, nullable=False)
     poster_path = db.Column(db.String, nullable=False)
     
+    
+    # ratings = a list of Rating objects
+    
     def __repr__(self):
         """show info about movie class"""
 
@@ -49,8 +58,12 @@ class Rating(db.Model):
     
     rating_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     score = db.Column(db.Integer)
-    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user.id"))
+    
+    movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    
+    movies = db.relationship("Movie", backref="ratings")
+    users = db.relationship("User", backref="ratings")
     
     def __repr__(self):
         
