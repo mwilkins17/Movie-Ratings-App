@@ -16,11 +16,6 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     
     
-    # movie = db.relationship("Movie", back_populates="ratings")
-    # ratings = db.relationship("Rating", back_populates="ratings")
-    
-   
-    
     def __repr__(self):
         """Show info about user class"""
         
@@ -56,14 +51,16 @@ class Movie(db.Model):
 class Rating(db.Model):
     """Rating model for movie ratings app."""
     
+    __tablename__ = "ratings"
+    #table name is users
+    
     rating_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     score = db.Column(db.Integer)
-    
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     
-    movies = db.relationship("Movie", backref="ratings")
-    users = db.relationship("User", backref="ratings")
+    movie = db.relationship("Movie", backref="ratings")
+    user = db.relationship("User", backref="ratings")
     
     def __repr__(self):
         
